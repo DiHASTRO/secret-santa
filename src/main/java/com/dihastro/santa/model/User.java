@@ -2,7 +2,11 @@ package com.dihastro.santa.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
+@Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue
@@ -12,10 +16,12 @@ public class User {
     private String username;
 
     public User() {}
-    public User(Long id, String username) {
-        this.id = id;
+    public User(String username) {
         this.username = username;
     }
+
+    @OneToMany(mappedBy = "user")
+    Set<UserToGroup> inGroups = new HashSet<>();
 
     public Long getId() {
         return id;
