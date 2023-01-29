@@ -12,18 +12,24 @@ public class Group {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String groupname;
 
+    @Column(nullable = false)
     private Boolean isClosed;
 
-    @OneToMany(mappedBy = "group")
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserToGroup> members = new HashSet<>();
 
     public Group() {}
     public Group(String groupname) {
         this.groupname = groupname;
         this.isClosed = false;
+    }
+
+    public Set<UserToGroup> getMembers() {
+        return new HashSet<>(members);
     }
     public Boolean getClosed() {
         return isClosed;

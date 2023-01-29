@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     public User() {}
@@ -20,8 +20,10 @@ public class User {
         this.username = username;
     }
 
-    @OneToMany(mappedBy = "user")
-    Set<UserToGroup> inGroups = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserToGroup> inGroups = new HashSet<>();
+    @OneToMany(mappedBy = "toGift")
+    private Set<UserToGroup> toGift = new HashSet<>();
 
     public Long getId() {
         return id;
